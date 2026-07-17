@@ -1,28 +1,8 @@
 @extends('layouts.customer')
+
+@section('title', 'Commande')
+
 @section('content')
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anber - Commande</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
-
-    <nav>
-    <div class="brand">
-        <h1>Anber</h1>
-        <p>Patisserie Fine</p>
-    </div>
-    <div class="nav-links">
-        <a href="/">Accueil</a>
-        <a href="/products">Produits</a>
-        <a href="/contact">Contact</a>
-        <a href="/cart">🛒 Panier</a>
-    </div>
-</nav>
-
     <div style="padding:40px; max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:40px;">
 
         <!-- Form -->
@@ -75,13 +55,18 @@
             <div style="background:white; border-radius:16px; padding:24px; box-shadow:0 4px 16px rgba(200,133,58,0.1);">
                 @php $total = 0; @endphp
                 @foreach($cart as $id => $item)
-                    @php $total += $item['price'] * $item['quantity']; @endphp
+                    @php 
+                        $currentPrice = ($item['unit'] === 'kg' && isset($item['price_kg']) && $item['price_kg'] > 0) 
+                            ? $item['price_kg'] 
+                            : $item['price'];
+                        $total += $currentPrice * $item['quantity'];
+                    @endphp
                     <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid #F5EDE8;">
                         <div style="display:flex; align-items:center; gap:12px;">
                             <span style="background:#F5EDE8; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center;">{{ $item['quantity'] }}</span>
-                            <span style="color:#5C3D2E; font-weight:500;">{{ $item['name'] }}</span>
+                            <span style="color:#5C3D2E; font-weight:500;">{{ $item['name'] }} ({{ $item['unit'] }})</span>
                         </div>
-                        <span style="color:#C8853A; font-weight:700;">{{ number_format($item['price'] * $item['quantity'], 3) }} TND</span>
+                        <span style="color:#C8853A; font-weight:700;">{{ number_format($currentPrice * $item['quantity'], 3) }} TND</span>
                     </div>
                 @endforeach
                 <div style="display:flex; justify-content:space-between; margin-top:16px; font-size:18px; font-weight:700; color:#5C3D2E;">
@@ -92,7 +77,4 @@
         </div>
 
     </div>
-
-</body>
-</html>
 @endsection
