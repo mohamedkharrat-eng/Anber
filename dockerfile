@@ -1,7 +1,7 @@
 FROM php:8.4-cli
 
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip libzip-dev libpng-dev libxml2-dev \
+    git curl zip unzip libzip-dev libpng-dev libxml2-dev libonig-dev \
     && docker-php-ext-install pdo pdo_mysql zip xml mbstring
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
