@@ -26,6 +26,7 @@ public function add(Request $request, $id)
         $cart[$id] = [
             'name' => $product->name,
             'price' => $product->price,
+            'price_kg' => $product->price_kg,
             'image' => $product->image,
             'quantity' => 1,
             'unit' => 'piece',
@@ -42,6 +43,12 @@ public function update(Request $request, $id)
     if (isset($cart[$id])) {
         $cart[$id]['quantity'] = $request->quantity;
         $cart[$id]['unit'] = $request->unit;
+        // Update price based on unit
+        if ($request->unit === 'kg') {
+            $cart[$id]['current_price'] = $cart[$id]['price_kg'];
+        } else {
+            $cart[$id]['current_price'] = $cart[$id]['price'];
+        }
         session()->put('cart', $cart);
     }
     return redirect('/cart');

@@ -20,6 +20,10 @@ class OrderController extends Controller
         $cart = session()->get('cart', []);
 
 foreach ($cart as $productId => $item) {
+    $currentPrice = ($item['unit'] === 'kg' && isset($item['price_kg']) && $item['price_kg'] > 0) 
+        ? $item['price_kg'] 
+        : $item['price'];
+
     Order::create([
         'first_name' => $request->first_name,
         'last_name' => $request->last_name,
@@ -29,7 +33,7 @@ foreach ($cart as $productId => $item) {
         'product_id' => $productId,
         'quantity' => $item['quantity'],
         'unit' => $item['unit'] ?? 'piece',
-        'total_price' => $item['price'] * $item['quantity'],
+        'total_price' => $currentPrice * $item['quantity'],
         'status' => 'pending',
     ]);
 }

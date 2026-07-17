@@ -1,35 +1,8 @@
-
 @extends('layouts.customer')
 
 @section('title', 'Panier')
 
 @section('content')
-
-
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anber - Panier</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
-
-   <nav>
-    <div class="brand">
-        <h1>Anber</h1>
-        <p>Patisserie Fine</p>
-    </div>
-    <div class="nav-links">
-        <a href="/">Accueil</a>
-        <a href="/products">Produits</a>
-        <a href="/contact">Contact</a>
-        <a href="/cart">🛒 Panier</a>
-    </div>
-</nav>
-
     <div style="padding:40px; max-width:900px; margin:0 auto;">
         <h1 style="color:#5C3D2E; font-family:Georgia,serif; margin-bottom:24px;">Mon Panier 🛒</h1>
 
@@ -47,7 +20,12 @@
             <div style="background:white; border-radius:16px; overflow:hidden; box-shadow:0 4px 16px rgba(200,133,58,0.1);">
                 @php $total = 0; @endphp
                 @foreach($cart as $id => $item)
-                    @php $total += $item['price'] * $item['quantity']; @endphp
+                    @php 
+                        $currentPrice = ($item['unit'] === 'kg' && isset($item['price_kg']) && $item['price_kg'] > 0) 
+                            ? $item['price_kg'] 
+                            : $item['price'];
+                        $total += $currentPrice * $item['quantity']; 
+                    @endphp
                     <div style="display:flex; align-items:center; padding:20px; border-bottom:1px solid #F5EDE8;">
                         <div style="width:80px; height:80px; border-radius:10px; overflow:hidden; margin-right:20px; background:#F5EDE8;">
                             @if($item['image'])
@@ -58,22 +36,28 @@
                         </div>
                         <div style="flex:1;">
                             <h3 style="color:#5C3D2E;">{{ $item['name'] }}</h3>
-                            <p style="color:#C8853A; font-weight:700;">{{ $item['price'] }} TND</p>
+                            <p style="color:#C8853A; font-weight:700;">
+                                @if($item['unit'] === 'kg' && isset($item['price_kg']) && $item['price_kg'] > 0)
+                                    {{ $item['price_kg'] }} TND/kg
+                                @else
+                                    {{ $item['price'] }} TND/pièce
+                                @endif
+                            </p>
                         </div>
                         <div style="display:flex; align-items:center; gap:12px;">
-<form method="POST" action="/cart/update/{{ $id }}">
-    @csrf
-    <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="0.1" step="0.1" style="width:70px; padding:8px; border:1.5px solid #E8A598; border-radius:8px; text-align:center;">
-    <select name="unit" style="padding:8px; border:1.5px solid #E8A598; border-radius:8px; color:#5C3D2E; margin-left:8px;">
-        <option value="piece" {{ ($item['unit'] ?? 'piece') == 'piece' ? 'selected' : '' }}>Pièce</option>
-        <option value="kg" {{ ($item['unit'] ?? 'piece') == 'kg' ? 'selected' : '' }}>Kg</option>
-    </select>
-    <button type="submit" style="background:#C8853A; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; margin-left:8px;">✓</button>
-</form>
+                            <form method="POST" action="/cart/update/{{ $id }}">
+                                @csrf
+                                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="0.1" step="0.1" style="width:70px; padding:8px; border:1.5px solid #E8A598; border-radius:8px; text-align:center;">
+                                <select name="unit" style="padding:8px; border:1.5px solid #E8A598; border-radius:8px; color:#5C3D2E; margin-left:8px;">
+                                    <option value="piece" {{ ($item['unit'] ?? 'piece') == 'piece' ? 'selected' : '' }}>Pièce</option>
+                                    <option value="kg" {{ ($item['unit'] ?? 'piece') == 'kg' ? 'selected' : '' }}>Kg</option>
+                                </select>
+                                <button type="submit" style="background:#C8853A; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; margin-left:8px;">✓</button>
+                            </form>
                             <a href="/cart/remove/{{ $id }}" style="color:#e74c3c; text-decoration:none; font-size:20px;">✕</a>
                         </div>
                         <div style="margin-left:20px; font-weight:700; color:#5C3D2E; min-width:80px; text-align:right;">
-                            {{ number_format($item['price'] * $item['quantity'], 3) }} TND
+                            {{ number_format($currentPrice * $item['quantity'], 3) }} TND
                         </div>
                     </div>
                 @endforeach
@@ -85,7 +69,4 @@
             </div>
         @endif
     </div>
-
-</body>
-</html>
 @endsection
