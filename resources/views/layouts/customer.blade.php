@@ -12,7 +12,7 @@
     <!-- NAVBAR -->
     <nav>
         <div class="brand">
-            <h1>Anber</h1>
+            <h1>Mme Gargouri</h1>
             <p>Patisserie Fine</p>
         </div>
         <div class="nav-links">
@@ -31,7 +31,7 @@
     <footer>
         <div class="footer-grid">
             <div>
-                <h3>Anber</h3>
+                <h3>Mme Gargouri</h3>
                 <p>Patisserie fine fondée à Sfax, Tunisie. Une tradition fière et fidèle.</p>
             </div>
             <div>
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Anber Patisserie Fine. Tous droits réservés.</p>
+            <p>© 2026 Mme Gargouri Patisserie Fine. Tous droits réservés.</p>
         </div>
     </footer>
 

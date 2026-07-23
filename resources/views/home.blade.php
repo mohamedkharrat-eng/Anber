@@ -6,25 +6,23 @@
 
     <!-- HERO SECTION -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>Bienvenue chez Anber 🌸</h1>
-            <p>Découvrez nos délicieuses pâtisseries fines tunisiennes</p>
-            <a href="/products" class="btn">Voir nos produits</a>
-        </div>
-    </section>
+    <div class="hero-content">
+        <h1>Bienvenue chez Mme Gargouri 🌸</h1>
+        <p>Pâtisseries fines tunisiennes — Baklawa, Ka3k, War9a & Sucreries</p>
+        <a href="/products" class="btn">Découvrir nos produits</a>
+    </div>
+</section>
 
-    <!-- INTRODUCTION -->
-    <section style="padding:60px; background:white; text-align:center;">
-        <div style="max-width:800px; margin:0 auto;">
-            <h2 style="color:#C8853A; font-family:Georgia,serif; font-size:28px; margin-bottom:20px;">La Maison Anber</h2>
-            <p style="color:#5C3D2E; font-size:16px; line-height:1.8;">
-                Anber est la signature d'une gastronomie fine et la quintessence d'un héritage transmis. 
-                Pâtisserie fine fondée à Sfax, en Tunisie, Anber est cette tradition fière et fidèle, 
-                à la richesse subtile et intemporelle. Chaque pâtisserie est préparée avec soin, 
-                en utilisant les meilleurs ingrédients pour vous offrir une expérience unique.
-            </p>
-        </div>
-    </section>
+<!-- INTRODUCTION -->
+<section class="intro-section">
+    <h2>La Maison Gargouri</h2>
+    <div class="divider"></div>
+    <p>
+        Mme Gargouri est la signature d'une gastronomie fine et la quintessence d'un héritage transmis.
+        Pâtisserie fine fondée à Sfax, en Tunisie, chaque pâtisserie est préparée avec soin,
+        en utilisant les meilleurs ingrédients pour vous offrir une expérience unique et inoubliable.
+    </p>
+</section>
 
     <!-- FEATURES -->
     <section class="features">
@@ -64,7 +62,7 @@
                     @endif
                     <div class="product-info">
                         @if($product->category)
-                            <span style="background:#F5EDE8; color:#C8853A; font-size:12px; padding:4px 10px; border-radius:20px; font-weight:600;">{{ $product->category->name }}</span>
+                            <span class="category-badge">{{ $product->category->name }}</span>
                         @endif
                         <h3 style="margin-top:8px;">{{ $product->name }}</h3>
                         <p>{{ $product->description }}</p>
