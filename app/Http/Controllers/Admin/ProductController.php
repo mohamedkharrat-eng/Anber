@@ -92,10 +92,12 @@ public function update(Request $request, $id)
     return redirect('/admin/products')->with('success', 'Product updated successfully!');
 }
 
-    public function destroy($id)
-    {
-        $product = Product::find($id);
-        $product->delete();
-        return redirect('/admin/products')->with('success', 'Product deleted successfully!');
-    }
+   public function destroy($id)
+{
+    $product = Product::find($id);
+    // Delete related orders first
+    \App\Models\Order::where('product_id', $id)->delete();
+    $product->delete();
+    return redirect('/admin/products')->with('success', 'Product deleted successfully!');
+}
 }
