@@ -27,7 +27,7 @@ public function store(Request $request)
         'description' => 'nullable|string',
         'price' => 'required|numeric|min:0',
         'stock' => 'required|integer|min:0',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,|max:20480',
     ]);
 
     $imagePath = null;
@@ -65,7 +65,7 @@ public function update(Request $request, $id)
         'name' => 'required|string|max:255',
         'description' => 'nullable|string',
         'stock' => 'required|integer|min:0',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,|max:20480',
     ]);
 
     $product = Product::find($id);
